@@ -34,12 +34,8 @@ public class RetailerService {
     @Autowired
     private RetailerRepo retailerRepo;
 
-    // @Autowired
-    // private ServicesFeignClient servicesFeignClient;
-
-    // @Autowired
-    // private IdentityFeignClient identityFeignClient;
-
+   
+    @Autowired
     private AuthService authService;
 
     @Autowired
