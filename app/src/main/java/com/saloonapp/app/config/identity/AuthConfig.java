@@ -36,7 +36,8 @@ public class AuthConfig {
             .csrf(csrf -> csrf.disable()) 
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/register", "/auth/token", "/auth/validate","/retailer/saveRetailer","/customer/*").permitAll()
-                .anyRequest().authenticated() 
+                .anyRequest().authenticated()
+                
             )
             .sessionManagement(sess -> sess
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) 
