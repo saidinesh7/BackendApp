@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.saloonapp.app.dto.retailers.RetailerDto;
 import com.saloonapp.app.models.retailers.Retailer;
 import com.saloonapp.app.models.retailers.Services;
+import com.saloonapp.app.services.retailers.LocationService;
 import com.saloonapp.app.services.retailers.RetServices;
 import com.saloonapp.app.services.retailers.RetailerService;
 
@@ -34,6 +35,9 @@ public class Controll {
 
     @Autowired
     private RetServices retServices;
+
+    // @Autowired
+    // private LocationService lService;
 
      
      @GetMapping("/allRetailers")
@@ -72,8 +76,13 @@ public class Controll {
     }
     
 
-    @GetMapping("/feign/{id}")
+    @GetMapping("/getServicesByRetId/{id}")
     public List<Services> getServices(@PathVariable String id){
         return retServices.getServicesByRetId(id);
     }
+
+    // @GetMapping("/getServicesByRetId/{id}")
+    // public List<Retailer> getRetailersByLocation(@PathVariable String id){
+    //     return lService.getRetailerList(id);
+    // }
 }

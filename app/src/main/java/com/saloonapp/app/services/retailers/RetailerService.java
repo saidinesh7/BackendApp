@@ -7,13 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import com.saloonapp.app.config.identity.CustomUserDetailsService;
 import com.saloonapp.app.customexceptions.NotFoundException;
 import com.saloonapp.app.dto.retailers.RetailerDto;
 import com.saloonapp.app.models.identity.UserCredential;
 import com.saloonapp.app.models.retailers.Retailer;
 import com.saloonapp.app.models.retailers.Services;
 import com.saloonapp.app.repos.retailers.RetailerRepo;
-import com.saloonapp.app.services.identity.AuthService;
+
 
 
 
@@ -36,7 +37,7 @@ public class RetailerService {
 
    
     @Autowired
-    private AuthService authService;
+    private CustomUserDetailsService authService;
 
     @Autowired
     private RetServices retServices;
@@ -82,7 +83,7 @@ public class RetailerService {
        if(ret.getRetailerId()!=null){
          
         UserCredential user=new UserCredential(ret.getRetailerUsername(),ret.getRetailerEmail(),ret.getRetailerPass(),"RETAILER");
-        authService.saveUser(user);
+        authService.addUser(user);
 
         return true;
        }

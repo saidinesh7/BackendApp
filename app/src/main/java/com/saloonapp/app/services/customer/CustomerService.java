@@ -11,10 +11,11 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.saloonapp.app.config.identity.CustomUserDetailsService;
 import com.saloonapp.app.models.customer.Customer;
 import com.saloonapp.app.models.identity.UserCredential;
 import com.saloonapp.app.repos.customer.CustRepository;
-import com.saloonapp.app.services.identity.AuthService;
+
 
 import jakarta.transaction.Transactional;
 
@@ -24,11 +25,9 @@ public class CustomerService implements CustomerServiceInterface {
         return str == null || str.trim().isEmpty();
     }
 
-    // @Autowired
-    // private IdentityFeignClient identityFeignClient;
 
     @Autowired
-    private AuthService authService;
+    private CustomUserDetailsService custService;
 
     @Autowired
     private CustRepository customerRepository;
@@ -77,7 +76,7 @@ public class CustomerService implements CustomerServiceInterface {
                 cust.getPassword(),
                 "CUSTOMER"
             );
-            authService.saveUser(userCredential);
+            custService.addUser(userCredential);
             return true;
         }
         return false;

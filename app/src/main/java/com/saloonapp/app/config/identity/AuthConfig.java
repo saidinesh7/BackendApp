@@ -3,6 +3,7 @@ package com.saloonapp.app.config.identity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -24,7 +25,9 @@ public class AuthConfig {
     @Autowired
     private JwtRequestFilter jFilter;
 
+
     @Bean
+    @Primary
     public UserDetailsService userDetailsService(){
         return new CustomUserDetailsService();
     }
@@ -35,7 +38,7 @@ public class AuthConfig {
         http
             .csrf(csrf -> csrf.disable()) 
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/register", "/auth/token", "/auth/validate","/retailer/saveRetailer","/customer/*").permitAll()
+                .requestMatchers("/auth/register", "/auth/generateToken", "/auth/validate","/retailer/saveRetailer","/customer/*","/swagger-ui/*","/swagger-ui.html","/v3/api-docs").permitAll()
                 .anyRequest().authenticated()
                 
             )
