@@ -17,7 +17,7 @@ import com.saloonapp.app.models.identity.UserCredential;
 
 
 @RestController
-@RequestMapping("/auth")
+//@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
@@ -31,12 +31,17 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @PostMapping("/register")
+    @GetMapping("/")
+    public String homePage(){
+        return "Hello World";
+    }
+
+    @PostMapping("/auth/register")
     public String addNewUser(@RequestBody UserCredential user) {
         return service.addUser(user);
     }
 
-    @PostMapping("/generateToken")
+    @PostMapping("/auth/generateToken")
     public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
