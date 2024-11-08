@@ -77,7 +77,7 @@ public class AuthConfig {
      @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:*")); // Allow all origins
+        configuration.setAllowedOrigins(Arrays.asList("*")); // Allow all origins
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE","OPTIONS")); // Allowed HTTP methods
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true); // Allow cookies or credentials if needed
