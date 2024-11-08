@@ -40,7 +40,7 @@ public class AuthConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors().and()
+        http.cors().configurationSource(req->new CorsConfiguration().applyPermitDefaultValues()).and()
             .csrf(csrf -> csrf.disable()) 
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/register", "/auth/generateToken", "/auth/validate","/retailer/saveRetailer","/customer/*","/swagger-ui/*","/swagger-ui.html","/v3/api-docs/**").permitAll()
@@ -74,15 +74,15 @@ public class AuthConfig {
         return config.getAuthenticationManager();
     }
 
-     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*")); // Allow all origins
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE","OPTIONS")); // Allowed HTTP methods
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-        configuration.setAllowCredentials(false); // Allow cookies or credentials if needed
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+    //  @Bean
+    // public CorsConfigurationSource corsConfigurationSource() {
+    //     CorsConfiguration configuration = new CorsConfiguration();
+    //     configuration.setAllowedOrigins(Arrays.asList("http://localhost")); // Allow all origins
+    //     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE","OPTIONS")); // Allowed HTTP methods
+    //     configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+    //     configuration.setAllowCredentials(true); // Allow cookies or credentials if needed
+    //     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    //     source.registerCorsConfiguration("/**", configuration);
+    //     return source;
+    // }
 }
