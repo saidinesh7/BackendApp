@@ -7,11 +7,13 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.saloonapp.app.models.customer.Customer;
 import com.saloonapp.app.models.rah.CustomerServices;
 import com.saloonapp.app.models.rah.ServiceStatus;
 import com.saloonapp.app.models.rah.TableRAH;
 import com.saloonapp.app.repos.rah.CustomerServicesRepo;
 import com.saloonapp.app.repos.rah.RAHRepo;
+import com.saloonapp.app.services.customer.CustomerService;
 
 import jakarta.transaction.Transactional;
 
@@ -34,7 +36,8 @@ public class RAHService implements RAHServiceInterface {
     @Autowired
     private CustomerServicesRepo cRepo;
 
-    
+    @Autowired
+    private CustomerService customerService;
    
 
     @Override
@@ -151,6 +154,12 @@ public class RAHService implements RAHServiceInterface {
             return currentRequest;
         }
         return null;
+    }
+
+    @Override
+    public Customer getCustomerById(String id){
+        return customerService.getCustomerById(id);
+        
     }
     
 

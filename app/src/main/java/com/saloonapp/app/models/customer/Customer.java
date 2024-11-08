@@ -29,6 +29,7 @@ public class Customer {
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB") // Specify MEDIUMBLOB
     private byte[] profile_img;
+    
     @Column(nullable = false, unique = true)
     private String username;
     @Column(nullable = false)

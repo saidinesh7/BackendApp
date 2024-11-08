@@ -2,6 +2,7 @@ package com.saloonapp.app.services.rah;
 
 import java.util.List;
 
+import com.saloonapp.app.models.customer.Customer;
 import com.saloonapp.app.models.rah.ServiceStatus;
 import com.saloonapp.app.models.rah.TableRAH;
 
@@ -19,6 +20,6 @@ public interface RAHServiceInterface {
     public boolean updateOngoingStatus(String requestId,ServiceStatus newStatus);//it updates the  ongoingstatus of the request with ongoing
     public boolean withdrawalRequest(String requestId);
     public boolean setRetMessage(String requestId,String message);
-
+    public Customer getCustomerById(String custId);
 
 }

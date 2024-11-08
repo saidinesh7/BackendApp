@@ -71,6 +71,7 @@ public class CustomerService implements CustomerServiceInterface {
         Customer cust = customerRepository.save(c);
         if (cust.getId() != null) {
             UserCredential  userCredential = new UserCredential(
+                cust.getId(),
                 cust.getUsername(),
                 cust.getEmail(),
                 cust.getPassword(),

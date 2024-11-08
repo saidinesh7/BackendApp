@@ -78,11 +78,10 @@ public class RetailerService {
                 throw new NullPointerException("name, username, password cannot be null");
             }
         }
-        r.setRetailerId(UUID.randomUUID().toString());
+        r.setRetailerId("RET"+UUID.randomUUID().toString());
        Retailer ret= retailerRepo.save(r);
        if(ret.getRetailerId()!=null){
-         
-        UserCredential user=new UserCredential(ret.getRetailerUsername(),ret.getRetailerEmail(),ret.getRetailerPass(),"RETAILER");
+        UserCredential user=new UserCredential(ret.getRetailerId(),ret.getRetailerUsername(),ret.getRetailerEmail(),ret.getRetailerPass(),"RETAILER");
         authService.addUser(user);
 
         return true;
