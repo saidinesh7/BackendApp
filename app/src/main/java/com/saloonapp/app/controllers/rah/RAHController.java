@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,7 @@ import com.saloonapp.app.models.rah.TableRAH;
 import com.saloonapp.app.services.rah.RAHService;
 
 
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/rah")
 public class RAHController {

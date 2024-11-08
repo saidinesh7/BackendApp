@@ -2,6 +2,7 @@ package com.saloonapp.app.controllers.retailers;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +14,7 @@ import com.saloonapp.app.services.retailers.RetServices;
 
 
 
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/retailerservices")
 public class ServicesController {
