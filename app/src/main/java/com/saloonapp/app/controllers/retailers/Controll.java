@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.saloonapp.app.dto.retailers.RetailerDto;
 import com.saloonapp.app.models.retailers.Retailer;
 import com.saloonapp.app.models.retailers.Services;
-import com.saloonapp.app.services.retailers.LocationService;
+
 import com.saloonapp.app.services.retailers.RetServices;
 import com.saloonapp.app.services.retailers.RetailerService;
 
@@ -25,7 +25,7 @@ import com.saloonapp.app.services.retailers.RetailerService;
 
 
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*",allowCredentials = "*",allowedHeaders = "*")
 @RestController
 @RequestMapping("/retailer")
 public class Controll {

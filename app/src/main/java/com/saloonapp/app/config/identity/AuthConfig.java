@@ -36,7 +36,7 @@ public class AuthConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) 
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/register", "/auth/generateToken", "/auth/validate","/retailer/saveRetailer","/customer/*","/swagger-ui/*","/swagger-ui.html","/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated()

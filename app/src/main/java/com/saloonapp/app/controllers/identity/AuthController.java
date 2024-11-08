@@ -15,7 +15,7 @@ import com.saloonapp.app.models.identity.UserCredential;
 
 
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*",allowCredentials = "*",allowedHeaders = "*")
 @RestController
 //@RequestMapping("/auth")
 public class AuthController {
