@@ -25,7 +25,7 @@ import com.saloonapp.app.services.retailers.RetailerService;
 
 
 
-@CrossOrigin(origins = "*",allowCredentials = "*",allowedHeaders = "*")
+@CrossOrigin(origins = "*",allowCredentials = "true",allowedHeaders = "*")
 @RestController
 @RequestMapping("/retailer")
 public class Controll {

@@ -14,7 +14,7 @@ import com.saloonapp.app.services.retailers.LocationService;
 
 
 
-@CrossOrigin(origins = "*",allowCredentials = "*",allowedHeaders = "*")
+@CrossOrigin(origins = "*",allowCredentials = "true",allowedHeaders = "*")
 @RestController
 @RequestMapping("/location")
 public class LocationController {
