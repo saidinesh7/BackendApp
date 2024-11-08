@@ -19,7 +19,7 @@ import com.saloonapp.app.models.rah.TableRAH;
 import com.saloonapp.app.services.rah.RAHService;
 
 
-@CrossOrigin(origins = "*",allowCredentials = "true",allowedHeaders = "*")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/rah")
 public class RAHController {
