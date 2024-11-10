@@ -32,7 +32,8 @@ public class CSPFilter implements Filter {
         httpResponse.setContentType("text/html;charset=UTF-8");
         httpResponse.setHeader("Content-Security-Policy",
             "default-src 'self'; "+
-            "connect-src 'self' http://localhost:8080; " +  // Allow connections to API
+           // "connect-src 'self' http://localhost:8080; " +  // Allow connections to API
+            "connect-src 'self' https://merry-passion-production.up.railway.app; " +  // Allow connections to API
             "script-src 'self' 'unsafe-inline'; " +  // Allow inline scripts (adjust as needed)
             "style-src 'self' 'unsafe-inline'; " +  // Allow inline styles (adjust as needed)
             "img-src 'self' data:; " +  // Allow images from the same origin and data URIs
