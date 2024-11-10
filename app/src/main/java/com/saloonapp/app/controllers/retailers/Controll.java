@@ -25,7 +25,7 @@ import com.saloonapp.app.services.retailers.RetailerService;
 
 
 
-@CrossOrigin
+
 @RestController
 @RequestMapping("/retailer")
 public class Controll {
