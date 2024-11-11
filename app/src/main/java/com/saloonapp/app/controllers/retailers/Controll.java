@@ -57,6 +57,9 @@ public class Controll {
 
     @PostMapping("/saveRetailer")
     public boolean saveRetailer(@RequestBody Retailer r){
+
+        
+
         return retailerService.saveRetailer(r);
     }
 

@@ -14,6 +14,7 @@ import com.saloonapp.app.models.identity.UserCredential;
 import com.saloonapp.app.models.retailers.Retailer;
 import com.saloonapp.app.models.retailers.Services;
 import com.saloonapp.app.repos.retailers.RetailerRepo;
+import com.saloonapp.app.repos.retailers.ServicesRepo;
 
 
 
@@ -41,6 +42,9 @@ public class RetailerService {
 
     @Autowired
     private RetServices retServices;
+
+    @Autowired
+    private ServicesRepo servicesRepo;
     
 
     public List<RetailerDto> getAllRetailers(){
@@ -79,6 +83,21 @@ public class RetailerService {
             }
         }
         r.setRetailerId("RET"+UUID.randomUUID().toString());
+        List<Services> sList=r.getServiceList();
+        
+        for(int i=0;i<sList.size();i++)
+        {
+            Services s=new Services();
+            s.setRetailerId(sList.get(i).getRetailerId());
+            s.setDuration(sList.get(i).getDuration());
+            s.setImages(sList.get(i).getImages());
+            s.setServiceCost(sList.get(i).getServiceCost());
+            s.setServiceId(sList.get(i).getServiceId());
+            s.setServiceName(sList.get(i).getServiceName());
+            s.setServiceType(sList.get(i).getServiceType());
+            servicesRepo.save(s);
+        }
+
        Retailer ret= retailerRepo.save(r);
        if(ret.getRetailerId()!=null){
         UserCredential user=new UserCredential(ret.getRetailerId(),ret.getRetailerUsername(),ret.getRetailerEmail(),ret.getRetailerPass(),"RETAILER");
@@ -143,7 +162,7 @@ public class RetailerService {
                 (r.getRetailerEmail() == null || r.getRetailerEmail().trim().isEmpty()) &&
                 (r.getRetailerMobile() == null || r.getRetailerMobile().trim().isEmpty()) &&
                 (r.getRetailerOwner() == null || r.getRetailerOwner().trim().isEmpty()) &&
-                (r.getRetailImage() == null || r.getRetailImage().trim().isEmpty()) &&
+                (r.getRetailImage() == null || r.getRetailImage().length==0) &&
                 (r.getRetailerPass() == null || r.getRetailerPass().trim().isEmpty()) &&
                 (r.getRetailerDescription() == null || r.getRetailerDescription().trim().isEmpty())&&
                 (r.getIsAvailable() == null || r.getIsAvailable().trim().isEmpty())&&

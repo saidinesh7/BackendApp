@@ -29,8 +29,9 @@ public class RetailerDto {
     private String  timings;	//
     private String  noOfBarbers;//
     private String  isAvailable;//
-    private String  retailImage;//
-    private List<Services> serviceList; 
+    private byte[]  retailImage;//
+    private List<Services> serviceList;
+    
 
 
 }
