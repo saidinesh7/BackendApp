@@ -88,7 +88,7 @@ public class RetailerService {
         for(int i=0;i<sList.size();i++)
         {
             Services s=new Services();
-            s.setRetailerId(sList.get(i).getRetailerId());
+            s.setRetailerId(r.getRetailerId());
             s.setDuration(sList.get(i).getDuration());
             s.setImages(sList.get(i).getImages());
             s.setServiceCost(sList.get(i).getServiceCost());
