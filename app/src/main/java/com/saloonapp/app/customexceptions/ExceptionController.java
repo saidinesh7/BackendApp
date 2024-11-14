@@ -18,11 +18,12 @@ public class ExceptionController {
 	}
 
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ErrorClass> genericExceptionHandler(Exception ex) {
+	public ResponseEntity<Error> genericExceptionHandler(Exception ex) {
 		String exception = ex.getMessage();
 
 		ErrorClass errorClass = new ErrorClass(exception, HttpStatus.INTERNAL_SERVER_ERROR);
-		return new ResponseEntity<ErrorClass>(errorClass, HttpStatus.INTERNAL_SERVER_ERROR);
+		Error error = new Error(errorClass);
+		return new ResponseEntity<Error>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 }
