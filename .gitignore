@@ -1,0 +1,4 @@
+data/
+.vscode/
+app/.vscode/
+app/target/

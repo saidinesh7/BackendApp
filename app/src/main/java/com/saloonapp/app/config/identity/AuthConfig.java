@@ -44,7 +44,7 @@ public class AuthConfig {
         .cors().and()
             .csrf(csrf -> csrf.disable()) 
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/register", "/auth/generateToken", "/auth/validate","/retailer/saveRetailer","/customer/*","/swagger-ui/*","/swagger-ui.html","/v3/api-docs/**").permitAll()
+                .requestMatchers("/auth/register", "/auth/generateToken", "/auth/validate","/retailer/saveRetailer","/customer/Signup","/swagger-ui/*","/swagger-ui.html","/v3/api-docs/**", "/h2-console/*").permitAll()
                 .anyRequest().authenticated()
                 
             )

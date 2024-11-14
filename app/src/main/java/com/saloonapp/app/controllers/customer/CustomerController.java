@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -32,11 +33,6 @@ public class CustomerController {
     
     @Autowired
     private CustomerDTO customerDTO;
-
-    @GetMapping("/hello")
-    public String hello() {
-        return "Hello, World!";
-    }
 
     @GetMapping("/getAllCustomers")
     public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
@@ -78,20 +74,24 @@ public class CustomerController {
     public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable String id) {
         return ResponseEntity.ok(customerDTO.customerToCustomerDTO(customerService.getCustomerById(id)));
     }
+    @GetMapping("/getCustomerProfile")
+    public ResponseEntity<CustomerDTO> getCustomerProfile(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(customerDTO.customerToCustomerDTO(customerService.getCustomerProfile(token)));
+    }
 
     @GetMapping("/getCustomerByUsername/{username}")
     public CustomerDTO getCustomerByUsername(@PathVariable String username) {
         return customerDTO.customerToCustomerDTO(customerService.getCustomerByUsername(username));
     }
 
-    @GetMapping("/updateCustomerPassword/{username}/{newpassword}")
-    public boolean updateCustomerPassword(@PathVariable String username, @PathVariable String newpassword) {
-        return customerService.updateCustomerPassword(username, newpassword);
+    @GetMapping("/updateCustomerPassword/{newpassword}")
+    public boolean updateCustomerPassword(@PathVariable String newpassword, @RequestHeader("Authorization") String token) {
+        return customerService.updateCustomerPassword(token, newpassword);
     }
 
     @PostMapping("/updateCustomer")
-    public boolean updateCustomer(@RequestBody Customer updatedCustomer) {
-        return customerService.updateCustomerData(updatedCustomer);
+    public boolean updateCustomer(@RequestBody Customer updatedCustomer, @RequestHeader("Authorization") String token) {
+        return customerService.updateCustomerData(updatedCustomer, token);
     }
 
 }
