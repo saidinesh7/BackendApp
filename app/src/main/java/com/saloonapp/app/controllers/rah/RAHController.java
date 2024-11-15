@@ -104,5 +104,10 @@ public class RAHController {
     //     return null;
     // }
 
+    @GetMapping("/getAcceptedRequestsByRetailer")
+    public List<TableRAH> getAcceptedRequestsByRetailer(@RequestHeader("Authorization") String bearertoken){
+        return rahService.getAcceptedRequestsByRetailer(bearertoken);
+    }
+
 
 }

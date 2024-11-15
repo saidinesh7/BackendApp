@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.saloonapp.app.config.identity.JwtService;
 import com.saloonapp.app.dto.retailers.RetailerDto;
 import com.saloonapp.app.models.customer.Customer;
 import com.saloonapp.app.models.rah.CustomerServices;
@@ -110,6 +111,8 @@ public class RAHService implements RAHServiceInterface {
         return rahRepo.findByRetIdAndIsAccepted(id, true);
 
     }
+
+    
     @Transactional
     public boolean updateOngoingStatus(String requestId,ServiceStatus newStatus){
         int t=rahRepo.updateOngoingStatus(requestId, newStatus);
@@ -166,6 +169,12 @@ public class RAHService implements RAHServiceInterface {
             return currentRequest;
         }
         return null;
+    }
+
+    @Override
+    public List<TableRAH> getAcceptedRequestsByRetailer(String retToken) {
+       RetailerDto rDto=retailerService.getRetailerProfile(retToken);
+        return getRequestByRetIdAndApprovalStatus(rDto.getRetailerId());
     }
 
     
