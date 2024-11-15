@@ -2,6 +2,8 @@ package com.saloonapp.app.services.rah;
 
 import java.util.List;
 
+import org.hibernate.mapping.Table;
+
 import com.saloonapp.app.models.customer.Customer;
 import com.saloonapp.app.models.rah.ServiceStatus;
 import com.saloonapp.app.models.rah.TableRAH;
@@ -21,5 +23,6 @@ public interface RAHServiceInterface {
     public boolean withdrawalRequest(String requestId);
     public boolean setRetMessage(String requestId,String message);
     public Customer getCustomerById(String custId);
+    
 
 }
