@@ -93,6 +93,5 @@ public class Controll {
     public ResponseEntity<RetailerDto> getRetailerByProfile(@RequestHeader("Authorization") String bearerToken){
         RetailerDto rDto= retailerService.getRetailerProfile(bearerToken);
         return ResponseEntity.ok(rDto);
-        
       }
 }
