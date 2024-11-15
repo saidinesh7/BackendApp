@@ -7,13 +7,16 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.saloonapp.app.dto.retailers.RetailerDto;
 import com.saloonapp.app.models.customer.Customer;
 import com.saloonapp.app.models.rah.CustomerServices;
 import com.saloonapp.app.models.rah.ServiceStatus;
 import com.saloonapp.app.models.rah.TableRAH;
+import com.saloonapp.app.models.retailers.Retailer;
 import com.saloonapp.app.repos.rah.CustomerServicesRepo;
 import com.saloonapp.app.repos.rah.RAHRepo;
 import com.saloonapp.app.services.customer.CustomerService;
+import com.saloonapp.app.services.retailers.RetailerService;
 
 import jakarta.transaction.Transactional;
 
@@ -39,9 +42,13 @@ public class RAHService implements RAHServiceInterface {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private RetailerService retailerService;
+
     @Override
-    public List<TableRAH> getRAHQueueByRetailer(String retId) {
-        List<TableRAH> rahList = rahRepo.findAllByRetIdAndServiceOngoing(retId);
+    public List<TableRAH> getRAHQueueByRetailer(String token) {
+        RetailerDto retailer = retailerService.getRetailerProfile(token);
+        List<TableRAH> rahList = rahRepo.findAllByRetIdAndServiceOngoing(retailer.getRetailerId());
         // returns requests under retaier ID and SrviceOnGoing !=Completed
         return rahList;
     }
@@ -135,7 +142,9 @@ public class RAHService implements RAHServiceInterface {
     }
 
     @Override
-    public List<TableRAH> getRAHByCustomer(String custId) {
+    public List<TableRAH> getRAHByCustomer(String token) {
+        Customer customer = customerService.getCustomerProfile(token);
+        String custId = customer.getId();
          List<TableRAH> rah=rahRepo.findAllByCustId(custId);
         List<CustomerServices> cs=cRepo.getAllCustomerServicesByCustomerId(custId);
         rah.get(0).setCustExpectedServices(cs);
@@ -145,8 +154,9 @@ public class RAHService implements RAHServiceInterface {
     }
 
     @Override
-    public TableRAH getCurrentRequestByCustomer(String custId) {
-        System.out.println("efcsac came here");
+    public TableRAH getCurrentRequestByCustomer(String token) {
+        Customer customer = customerService.getCustomerProfile(token);
+        String custId = customer.getId();
         List<TableRAH> prevList = rahRepo.findAllByCustId(custId);
         if (prevList.size() > 0) {
             TableRAH currentRequest = prevList.stream()
