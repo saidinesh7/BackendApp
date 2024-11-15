@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,8 +33,8 @@ public class RAHController {
         return ResponseEntity.ok( rahService.getRAHQueueByRetailer(id));
     }
     @PostMapping("/createRequest")
-    public ResponseEntity<TableRAH> createRequest(@RequestBody TableRAH tableRAH) {        
-        return ResponseEntity.ok(rahService.createRAH(tableRAH));
+    public ResponseEntity<TableRAH> createRequest(@RequestBody TableRAH tableRAH, @RequestHeader("Authorization") String token) {        
+        return ResponseEntity.ok(rahService.createRAH(tableRAH, token));
     }
     @GetMapping("/getAllRequestsByCustId/{custId}")
     public ResponseEntity<List<TableRAH>> getRequestByCustId(@PathVariable String custId) {

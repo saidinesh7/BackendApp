@@ -34,11 +34,10 @@ public class RAHService implements RAHServiceInterface {
     private RAHRepo rahRepo;
 
     @Autowired
-    private CustomerServicesRepo cRepo;
-
+    private CustomerServicesRepo cRepo;  
+    
     @Autowired
     private CustomerService customerService;
-   
 
     @Override
     public List<TableRAH> getRAHQueueByRetailer(String retId) {
@@ -48,9 +47,12 @@ public class RAHService implements RAHServiceInterface {
     }
 
     @Override
-    public TableRAH createRAH(TableRAH rah) {
+    public TableRAH createRAH(TableRAH rah, String token) {
         String Id = "REQ_" + UUID.randomUUID().toString();
-        String custId = rah.getCustId();
+
+        Customer customer = customerService.getCustomerProfile(token);
+        String custId = customer.getId();
+        
         List<TableRAH> prevRequest = rahRepo.findAllByCustId(custId);
 
         boolean allCompleted = true;
@@ -62,10 +64,11 @@ public class RAHService implements RAHServiceInterface {
         }
         if (prevRequest == null || prevRequest.size() == 0 || allCompleted) {
             rah.setRequestId(Id);
+            rah.setServiceOngoing(ServiceStatus.UNACCEPTED);
             List<CustomerServices> customerServices=rah.getCustExpectedServices();
             for(int i=0;i<customerServices.size();i++){
                 CustomerServices customerSer=new CustomerServices();
-                customerSer.setCustomerId(rah.getCustId());
+                customerSer.setCustomerId(custId);
                 customerSer.setDuration(customerServices.get(i).getDuration());
                 customerSer.setServiceType(customerServices.get(i).getServiceType());
                 customerSer.setImages(customerServices.get(i).getImages());
@@ -156,11 +159,7 @@ public class RAHService implements RAHServiceInterface {
         return null;
     }
 
-    @Override
-    public Customer getCustomerById(String id){
-        return customerService.getCustomerById(id);
-        
-    }
+    
     
 
 }
