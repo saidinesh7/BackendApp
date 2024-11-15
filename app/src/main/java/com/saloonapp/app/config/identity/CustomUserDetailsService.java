@@ -35,6 +35,27 @@ public class CustomUserDetailsService implements UserDetailsService {
         repository.save(userInfo);
         return "User Added Successfully";
     }
+    public String updateUser(UserCredential userInfo) {
+        UserCredential existingUser = repository.findByName(userInfo.getName()).orElseThrow(() -> new UsernameNotFoundException("user not found with name :" + userInfo.getName()));
+
+        existingUser.setEmail(userInfo.getEmail());
+        // Encode password before saving the user
+        existingUser.setPassword(encoder.encode(userInfo.getPassword()));
+        repository.save(existingUser);
+        return "User Updated Successfully";
+    }
+    public String updateUserPassword(String username, String newPassword) {
+        UserCredential userInfo = repository.findByName(username).orElseThrow(() -> new UsernameNotFoundException("user not found with name :" + username));
+        // Encode password before saving the user
+        if (userInfo.getId() != null) {
+            
+    
+        userInfo.setPassword(encoder.encode(newPassword));
+        repository.save(userInfo);
+        return "User Updated Successfully";
+        }
+        else throw new UsernameNotFoundException("user not found with name :" + username);
+    }
 }
 /*
  *  @Autowired

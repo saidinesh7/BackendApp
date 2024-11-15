@@ -17,6 +17,7 @@ public interface CustomerServiceInterface {
     public boolean deleteCustomerByID(String id);
     public boolean deleteCustomerByUsername(String username);
     // Get Customer
+    public Customer getCustomerProfile(String token);
     public Customer getCustomerById(String id);
     public Customer getCustomerByUsername(String username);
     // public Customer getCustomerByEmail(String email);
@@ -33,7 +34,7 @@ public interface CustomerServiceInterface {
     // public boolean updateCustomerGender(String id, String newGender);
     // public boolean updateCustomerProfileImg(String id, String newProfileImg);
     public boolean updateCustomerPassword(String username, String newPassword);
-    public boolean updateCustomerData(Customer upadtedCustomer);
+    public boolean updateCustomerData(Customer upadtedCustomer, String token);
 
 
 }

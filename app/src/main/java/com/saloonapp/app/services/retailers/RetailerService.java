@@ -74,7 +74,8 @@ public class RetailerService {
 
 
     public boolean saveRetailer(Retailer r){
-        Retailer existingRetailer = retailerRepo.getByRetailerId(r.getRetailerId());
+
+        Retailer existingRetailer = !isNullOrEmpty(r.getRetailerId()) ? retailerRepo.getByRetailerId(r.getRetailerId()) : retailerRepo.getByRetailerUsername(r.getRetailerUsername());
         if (existingRetailer != null) {
             throw new RuntimeException("Customer Already Exists");
         }
@@ -86,7 +87,7 @@ public class RetailerService {
                 throw new NullPointerException("name, username, password cannot be null");
             }
         }
-        r.setRetailerId("RET"+UUID.randomUUID().toString());
+        r.setRetailerId("RET_"+UUID.randomUUID().toString());
         List<Services> sList=r.getServiceList();
         
         for(int i=0;i<sList.size();i++)
@@ -96,7 +97,7 @@ public class RetailerService {
             s.setDuration(sList.get(i).getDuration());
             s.setImages(sList.get(i).getImages());
             s.setServiceCost(sList.get(i).getServiceCost());
-            s.setServiceId(sList.get(i).getServiceId());
+            s.setServiceId("SER_"+UUID.randomUUID().toString());
             s.setServiceName(sList.get(i).getServiceName());
             s.setServiceType(sList.get(i).getServiceType());
             servicesRepo.save(s);

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.saloonapp.app.config.identity.CustomUserDetailsService;
+import com.saloonapp.app.config.identity.JwtService;
 import com.saloonapp.app.models.customer.Customer;
 import com.saloonapp.app.models.identity.UserCredential;
 import com.saloonapp.app.repos.customer.CustRepository;
@@ -25,6 +26,8 @@ public class CustomerService implements CustomerServiceInterface {
         return str == null || str.trim().isEmpty();
     }
 
+    @Autowired
+    private JwtService jwtService;
 
     @Autowired
     private CustomUserDetailsService custService;
@@ -129,6 +132,13 @@ public class CustomerService implements CustomerServiceInterface {
         return customerRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer doen't exist"));
         // return customerRepository.findById(id).orElseThrow();
     }
+    @Override
+    public Customer getCustomerProfile(String token) {
+        token = token.substring(7);
+        System.out.println("Token: " + token);
+        String customerName = jwtService.extractUsername(token);
+        return getCustomerByUsername(customerName);
+    }
 
     @Override
     public Customer getCustomerByUsername(String username) {
@@ -151,15 +161,13 @@ public class CustomerService implements CustomerServiceInterface {
     // }
     
     @Override
-    public boolean updateCustomerPassword(String username, String newPassword) {
-        Customer customer;
-        if (!isNullOrEmpty(username)) {
-            customer = getCustomerByUsername(username);
-        } else {
-            throw new RuntimeException("Coudn't find Customer");
-        }
+    public boolean updateCustomerPassword(String token, String newPassword) {
+        Customer customer = getCustomerProfile(token);
+        // updating userCrendentials before updating user table
+        custService.updateUserPassword(customer.getUsername(), customer.getPassword());
+
         customer.setPassword(newPassword);
-        customerRepository.save(customer);
+        System.out.println(customerRepository.save(customer));
         return true;
 
         // return createCustomer(customer);
@@ -167,7 +175,9 @@ public class CustomerService implements CustomerServiceInterface {
     }
 
     @Override
-    public boolean updateCustomerData(Customer updateCustomer) {
+    public boolean updateCustomerData(Customer updateCustomer, String token) {
+        Customer customer = getCustomerProfile(token);
+
         Customer existingCustomer;
 
         if (updateCustomer.getId() != null && !updateCustomer.getId().trim().isEmpty()) {
@@ -180,6 +190,9 @@ public class CustomerService implements CustomerServiceInterface {
 
                 throw new RuntimeException("Customer not found");
             }
+        }else if(!isNullOrEmpty(customer.getId())){
+            existingCustomer = customer;
+
         } else {
             throw new RuntimeException("Either id or username must be provided");
         }
@@ -190,7 +203,7 @@ public class CustomerService implements CustomerServiceInterface {
         int count = 0;
         for (String feild : Mandatory_Cust_Feilds) {
 
-            if (isNullOrEmpty(feild)) {
+            if (!isNullOrEmpty(feild)) {
                 count++;
             }
         }
@@ -217,6 +230,7 @@ public class CustomerService implements CustomerServiceInterface {
             existingCustomer.setProfile_img(updateCustomer.getProfile_img());
         }
         if (updateCustomer.getPassword() != null) {
+            custService.updateUserPassword(updateCustomer.getUsername(), updateCustomer.getPassword());
             existingCustomer.setPassword(updateCustomer.getPassword());
         }
 
