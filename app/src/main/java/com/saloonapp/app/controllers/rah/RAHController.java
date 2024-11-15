@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.saloonapp.app.config.identity.JwtService;
 import com.saloonapp.app.models.rah.ServiceStatus;
 import com.saloonapp.app.models.rah.TableRAH;
 import com.saloonapp.app.services.rah.RAHService;
@@ -27,6 +28,9 @@ public class RAHController {
 
    @Autowired
    RAHService rahService;
+
+   @Autowired
+   JwtService jService;
 
     @GetMapping("/getRequestsByRetailerId/{id}")
     public ResponseEntity<List<TableRAH>> getRequestsByRetailerId(@PathVariable String id){
@@ -88,6 +92,17 @@ public class RAHController {
         return rahService.getRequestByRetIdAndApprovalStatus(id);
     }
 
+    // @GetMapping("/getRequestsByRetailer")
+    // public List<TableRAH> getRequestsByRetailer(@RequestHeader("Authorization") String bearerToken){
+    //     String extractedToken=bearerToken.substring(7);
+    //      String username=jService.extractUsername(extractedToken);
+         
+
+
+        
+
+    //     return null;
+    // }
 
 
 }

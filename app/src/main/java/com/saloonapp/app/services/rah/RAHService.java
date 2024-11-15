@@ -91,7 +91,6 @@ public class RAHService implements RAHServiceInterface {
                 .orElseThrow(() -> new RuntimeException("Request does not exist"));
         request.setAccepted(isAccepted);
         request.setServiceOngoing(ServiceStatus.PENDING);
-
         return rahRepo.save(request);
     }
 
@@ -160,6 +159,10 @@ public class RAHService implements RAHServiceInterface {
     }
 
     
+    
+    
+    
+
     
 
 }

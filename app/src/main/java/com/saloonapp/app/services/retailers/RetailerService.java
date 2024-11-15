@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.saloonapp.app.config.identity.CustomUserDetailsService;
+import com.saloonapp.app.config.identity.JwtService;
 import com.saloonapp.app.customexceptions.NotFoundException;
 import com.saloonapp.app.dto.retailers.RetailerDto;
 import com.saloonapp.app.models.identity.UserCredential;
@@ -45,6 +46,9 @@ public class RetailerService {
 
     @Autowired
     private ServicesRepo servicesRepo;
+
+    @Autowired
+    JwtService jwtService;
     
 
     public List<RetailerDto> getAllRetailers(){
@@ -220,5 +224,16 @@ public class RetailerService {
         retailerDto.setRetailerEmail(r.getRetailerEmail());
         retailerDto.setServiceList(r.getServiceList());
        return retailerDto;
+    }
+
+    public RetailerDto getRetailerProfile(String bearerToken){
+        String extractedToken=bearerToken.substring(7);
+        String username=jwtService.extractUsername(extractedToken);
+        RetailerDto rDto=this.getByRetailerUserName(username);
+        if(rDto.getRetailerId()==null){
+         throw new NotFoundException("Retailer With Id "+rDto.getRetailerId()+" not found");
+        }
+        return rDto;
+
     }
 }
