@@ -112,8 +112,10 @@ public class RAHService implements RAHServiceInterface {
 
     }
 
-    public List<TableRAH> getRequestByRetIdAndApprovalStatusAndServiceOngoing(String id,boolean isAccepted,String serviceStatus){
-           
+    public List<TableRAH> getRequestByRetIdAndApprovalStatusAndServiceOngoing(String token,boolean isAccepted,String serviceStatus){
+        RetailerDto rDto=retailerService.getRetailerProfile(token);
+        String id=rDto.getRetailerId();
+
          ServiceStatus status;
            switch (serviceStatus) {
             case "COMPLETED":
