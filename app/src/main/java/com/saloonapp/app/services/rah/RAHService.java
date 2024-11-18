@@ -2,7 +2,7 @@ package com.saloonapp.app.services.rah;
 
 import java.util.List;
 import java.util.UUID;
-
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,6 +109,27 @@ public class RAHService implements RAHServiceInterface {
 
     
         return rahRepo.findByRetIdAndIsAccepted(id, true);
+
+    }
+
+    public List<TableRAH> getRequestByRetIdAndApprovalStatusAndServiceOngoing(String id,boolean isAccepted,String serviceStatus){
+           
+         ServiceStatus status;
+           switch (serviceStatus) {
+            case "COMPLETED":
+                status=ServiceStatus.COMPLETED;
+                break;
+           case "ONGOING":
+                status=ServiceStatus.ONGOING;
+                break;
+           case "UNACCEPTED":
+                status=ServiceStatus.UNACCEPTED;
+                break;
+            default:
+                 status=ServiceStatus.PENDING;
+                break;
+           }
+        return rahRepo.findByRetIdAndIsAcceptedAndServiceOngoing(id, isAccepted,status);
 
     }
 

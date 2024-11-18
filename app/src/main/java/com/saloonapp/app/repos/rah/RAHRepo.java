@@ -34,7 +34,10 @@ public interface RAHRepo extends JpaRepository<TableRAH,String> {
 
      public List<TableRAH>  findByRetIdAndIsAccepted(String retailerId,boolean isAccepted);
 
-     public  TableRAH findByRetId(String id);
+     public List<TableRAH>  findByRetIdAndIsAcceptedAndServiceOngoing(String retailerId,boolean isAccepted,ServiceStatus serviceStatus);
+
+
+     public  List<TableRAH> findByRetId(String id);
 
 
 

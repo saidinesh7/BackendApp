@@ -91,6 +91,11 @@ public class RAHController {
     public List<TableRAH>  getRequestByRetIdAndApprovalStatus(@PathVariable String id){
         return rahService.getRequestByRetIdAndApprovalStatus(id);
     }
+    
+    @GetMapping("/getRequestByRetIdAndApprovalStatusAndServiceOngoing/{id}/{isAccepted}/{serviceOngoing}")
+    public List<TableRAH>  getRequestByRetIdAndApprovalStatus(@PathVariable String id,@PathVariable boolean isAccepted,@PathVariable String serviceOngoing){
+        return rahService.getRequestByRetIdAndApprovalStatusAndServiceOngoing(id, isAccepted, serviceOngoing);
+    }
 
     // @GetMapping("/getRequestsByRetailer")
     // public List<TableRAH> getRequestsByRetailer(@RequestHeader("Authorization") String bearerToken){
@@ -108,6 +113,8 @@ public class RAHController {
     public List<TableRAH> getAcceptedRequestsByRetailer(@RequestHeader("Authorization") String bearertoken){
         return rahService.getAcceptedRequestsByRetailer(bearertoken);
     }
+
+    
 
 
 }
