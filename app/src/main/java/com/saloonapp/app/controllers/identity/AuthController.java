@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import com.saloonapp.app.config.identity.CustomUserDetailsService;
 import com.saloonapp.app.config.identity.JwtService;
 import com.saloonapp.app.dto.identity.AuthRequest;
+import com.saloonapp.app.dto.identity.IdentityResponse;
 import com.saloonapp.app.models.identity.UserCredential;
+import com.saloonapp.app.services.identity.IdentityService;
 
 
 
@@ -25,6 +27,9 @@ public class AuthController {
 
     @Autowired
     private JwtService jwtService;
+
+    @Autowired
+    private IdentityService identityService;
 
    
 
@@ -42,12 +47,15 @@ public class AuthController {
     }
 
     @PostMapping("/auth/generateToken")
-    public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+    public IdentityResponse authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
         );
+        
+
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(authRequest.getUsername());
+             String token=jwtService.generateToken(authRequest.getUsername());
+            return new IdentityResponse(token,identityService.getUserRole(authRequest.getUsername()).getRole(),jwtService.extractExpiration(token));
         } else {
             throw new UsernameNotFoundException("Invalid user request!");
         }
