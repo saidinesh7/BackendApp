@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.saloonapp.app.config.identity.JwtService;
+import com.saloonapp.app.dto.customers.CustomerDTO;
 import com.saloonapp.app.dto.retailers.RetailerDto;
 import com.saloonapp.app.models.customer.Customer;
 import com.saloonapp.app.models.rah.CustomerServices;
@@ -49,6 +50,8 @@ public class RAHService implements RAHServiceInterface {
     @Override
     public List<TableRAH> getRAHQueueByRetailer(String token) {
         RetailerDto retailer = retailerService.getRetailerProfile(token);
+
+        
         List<TableRAH> rahList = rahRepo.findAllByRetIdAndServiceOngoing(retailer.getRetailerId());
         // returns requests under retaier ID and SrviceOnGoing !=Completed
         return rahList;
@@ -72,7 +75,10 @@ public class RAHService implements RAHServiceInterface {
         }
         if (prevRequest == null || prevRequest.size() == 0 || allCompleted) {
             rah.setRequestId(Id);
+            rah.setCustId(custId);
             rah.setServiceOngoing(ServiceStatus.UNACCEPTED);
+            rah.setCustName(customer.getName());
+            rah.setCustImage(customer.getProfile_img());
             List<CustomerServices> customerServices=rah.getCustExpectedServices();
             for(int i=0;i<customerServices.size();i++){
                 CustomerServices customerSer=new CustomerServices();

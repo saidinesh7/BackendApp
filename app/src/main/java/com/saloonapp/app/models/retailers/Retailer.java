@@ -37,10 +37,7 @@ public class Retailer {
     private String  timings;	
     private String  noOfBarbers;
     private String  isAvailable;
-    @Lob
-    @Column(columnDefinition = "MEDIUMBLOB")
-    private byte[]  retailImage;
-
+    private String  retailImage;
     @Transient
     private List<Services> serviceList; 
     

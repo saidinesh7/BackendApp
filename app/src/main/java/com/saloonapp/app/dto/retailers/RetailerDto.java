@@ -29,7 +29,7 @@ public class RetailerDto {
     private String  timings;	//
     private String  noOfBarbers;//
     private String  isAvailable;//
-    private byte[]  retailImage;//
+    private String  retailImage;//
     private List<Services> serviceList;
     
 
