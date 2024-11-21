@@ -50,9 +50,15 @@ public class RAHService implements RAHServiceInterface {
     @Override
     public List<TableRAH> getRAHQueueByRetailer(String token) {
         RetailerDto retailer = retailerService.getRetailerProfile(token);
-
         
         List<TableRAH> rahList = rahRepo.findAllByRetIdAndServiceOngoing(retailer.getRetailerId());
+
+        for(int i=0;i<rahList.size();i++){
+            List<CustomerServices> customerServices=cRepo.getAllCustomerServicesByCustomerId(rahList.get(i).getCustId());
+            rahList.get(i).setCustExpectedServices(customerServices);
+        }
+
+        
         // returns requests under retaier ID and SrviceOnGoing !=Completed
         return rahList;
     }
@@ -113,9 +119,12 @@ public class RAHService implements RAHServiceInterface {
 
     public List<TableRAH> getRequestByRetIdAndApprovalStatus(String id){
 
-    
-        return rahRepo.findByRetIdAndIsAccepted(id, true);
-
+        List<TableRAH> rahList= rahRepo.findByRetIdAndIsAccepted(id, true);
+        for(int i=0;i<rahList.size();i++){
+            List<CustomerServices> customerServices=cRepo.getAllCustomerServicesByCustomerId(rahList.get(i).getCustId());
+            rahList.get(i).setCustExpectedServices(customerServices);
+        }
+            return rahList;
     }
 
     public List<TableRAH> getRequestByRetIdAndApprovalStatusAndServiceOngoing(String token,boolean isAccepted,String serviceStatus){
@@ -137,8 +146,12 @@ public class RAHService implements RAHServiceInterface {
                  status=ServiceStatus.PENDING;
                 break;
            }
-        return rahRepo.findByRetIdAndIsAcceptedAndServiceOngoing(id, isAccepted,status);
-
+       List<TableRAH> rahList= rahRepo.findByRetIdAndIsAcceptedAndServiceOngoing(id, isAccepted,status);
+       for(int i=0;i<rahList.size();i++){
+        List<CustomerServices> customerServices=cRepo.getAllCustomerServicesByCustomerId(rahList.get(i).getCustId());
+        rahList.get(i).setCustExpectedServices(customerServices);
+    }
+    return rahList;
     }
 
     
@@ -195,6 +208,8 @@ public class RAHService implements RAHServiceInterface {
                     .filter(tableRAH -> !tableRAH.getServiceOngoing().equals("COMPLETED"))
                     .findFirst()
                     .orElse(null);
+                    List<CustomerServices> customerServices=cRepo.getAllCustomerServicesByCustomerId(custId);
+                        currentRequest.setCustExpectedServices(customerServices);
             return currentRequest;
         }
         return null;
@@ -203,7 +218,12 @@ public class RAHService implements RAHServiceInterface {
     @Override
     public List<TableRAH> getAcceptedRequestsByRetailer(String retToken) {
        RetailerDto rDto=retailerService.getRetailerProfile(retToken);
-        return getRequestByRetIdAndApprovalStatus(rDto.getRetailerId());
+        List<TableRAH> rahList= getRequestByRetIdAndApprovalStatus(rDto.getRetailerId());
+        for(int i=0;i<rahList.size();i++){
+            List<CustomerServices> customerServices=cRepo.getAllCustomerServicesByCustomerId(rahList.get(i).getCustId());
+            rahList.get(i).setCustExpectedServices(customerServices);
+        }
+        return rahList;
     }
 
     
