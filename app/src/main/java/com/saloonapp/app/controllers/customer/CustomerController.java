@@ -1,7 +1,7 @@
 package com.saloonapp.app.controllers.customer;
 
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import com.saloonapp.app.dto.customers.CustomerDTO;
 import com.saloonapp.app.models.customer.Customer;
@@ -29,7 +29,6 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    
     @Autowired
     private CustomerDTO customerDTO;
 
@@ -54,8 +53,8 @@ public class CustomerController {
         return customerService.createCustomer(c);
     }
     @PostMapping("/uploadCustDP")
-    public boolean uploadCustDP( @RequestParam("file") MultipartFile file , @RequestParam("username") String username) {
-        return customerService.uploadCustDP(file, username);
+    public boolean uploadCustDP( @RequestParam("url") String url , @RequestParam("username") String username) {
+        return customerService.uploadCustDP(url, username);
     }
 
 

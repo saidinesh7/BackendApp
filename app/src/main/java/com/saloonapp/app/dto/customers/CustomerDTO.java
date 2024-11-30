@@ -21,7 +21,7 @@ public class CustomerDTO {
     private String mobile;
     private String age;
     private String gender;
-    private byte[] profile_img;
+    private String profile_img;
 
     public CustomerDTO customerToCustomerDTO(Customer customer) {
         CustomerDTO customerDTO = new CustomerDTO();

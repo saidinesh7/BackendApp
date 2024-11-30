@@ -3,7 +3,6 @@ package com.saloonapp.app.models.customer;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,9 +25,8 @@ public class Customer {
     private String age;
     @Column(nullable = false)
     private String gender;
-    @Lob
-    @Column(columnDefinition = "MEDIUMBLOB") // Specify MEDIUMBLOB
-    private byte[] profile_img;
+     
+    private String profile_img;
     
     @Column(nullable = false, unique = true)
     private String username;
@@ -83,11 +81,11 @@ public class Customer {
         this.gender = gender;
     }
 
-    public byte[] getProfile_img() {
+    public String getProfile_img() {
         return profile_img;
     }
 
-    public void setProfile_img(byte[] profile_img) {
+    public void setProfile_img(String profile_img) {
         this.profile_img = profile_img;
     }
 

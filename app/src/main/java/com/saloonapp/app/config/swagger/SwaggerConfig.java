@@ -21,7 +21,7 @@ public class SwaggerConfig {
    public OpenAPI swaggerApiConfig() {
 
         Server server = new Server();
-    server.setUrl("https://merry-passion-production.up.railway.app");
+    server.setUrl("https://bountiful-caring-production.up.railway.app");
 
        var info = new Info()
                .title("saloon API's")

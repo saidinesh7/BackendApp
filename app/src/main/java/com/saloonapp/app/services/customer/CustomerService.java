@@ -1,6 +1,6 @@
 package com.saloonapp.app.services.customer;
 
-import java.io.IOException;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -9,7 +9,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import org.springframework.web.multipart.MultipartFile;
+
 
 import com.saloonapp.app.config.identity.CustomUserDetailsService;
 import com.saloonapp.app.config.identity.JwtService;
@@ -87,14 +87,14 @@ public class CustomerService implements CustomerServiceInterface {
     }
 
     @Override
-    public boolean uploadCustDP(MultipartFile file, String username){
+    public boolean uploadCustDP(String url, String username){
         Customer existingCustomer = customerRepository.findCustomerByUsername(username);
         if (existingCustomer != null && existingCustomer.getId() != null) {
             try {
-                existingCustomer.setProfile_img(file.getBytes());
+                existingCustomer.setProfile_img(url);
                 customerRepository.save(existingCustomer);
                 return true;
-            } catch (IOException e) {
+            } catch (Exception e) {
                 System.err.println("Error in img save: " + e.getMessage());
                 e.printStackTrace();
                 throw new RuntimeException(e);

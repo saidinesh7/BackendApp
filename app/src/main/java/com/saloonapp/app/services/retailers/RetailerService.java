@@ -167,7 +167,7 @@ public class RetailerService {
                 (r.getRetailerEmail() == null || r.getRetailerEmail().trim().isEmpty()) &&
                 (r.getRetailerMobile() == null || r.getRetailerMobile().trim().isEmpty()) &&
                 (r.getRetailerOwner() == null || r.getRetailerOwner().trim().isEmpty()) &&
-                (r.getRetailImage() == null || r.getRetailImage().length==0) &&
+                (r.getRetailImage() == null || r.getRetailImage().trim().isEmpty()) &&
                 (r.getRetailerPass() == null || r.getRetailerPass().trim().isEmpty()) &&
                 (r.getRetailerDescription() == null || r.getRetailerDescription().trim().isEmpty())&&
                 (r.getIsAvailable() == null || r.getIsAvailable().trim().isEmpty())&&
