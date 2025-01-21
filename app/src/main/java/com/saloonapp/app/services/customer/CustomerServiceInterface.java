@@ -12,7 +12,7 @@ public interface CustomerServiceInterface {
 
     // Create Customer
     public boolean createCustomer(Customer c);
-    public boolean uploadCustDP(MultipartFile file, String username);
+    public boolean uploadCustDP(String url, String username);
     // Delete Customer
     public boolean deleteCustomerByID(String id);
     public boolean deleteCustomerByUsername(String username);

@@ -1,6 +1,6 @@
 package com.saloonapp.app.services.retailers;
 import java.util.List;
-
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,7 @@ import com.saloonapp.app.dto.retailers.RetailerDto;
 import com.saloonapp.app.models.identity.UserCredential;
 import com.saloonapp.app.models.retailers.Retailer;
 import com.saloonapp.app.models.retailers.Services;
+import com.saloonapp.app.repos.identity.UserCredentialRepository;
 import com.saloonapp.app.repos.retailers.RetailerRepo;
 import com.saloonapp.app.repos.retailers.ServicesRepo;
 
@@ -33,6 +34,9 @@ public class RetailerService {
     private static boolean isNullOrEmpty(String str) {
         return str == null || str.trim().isEmpty();
     }
+
+    @Autowired
+    private UserCredentialRepository userCredentialRepository;
 
     @Autowired
     private RetailerRepo retailerRepo;
@@ -76,8 +80,9 @@ public class RetailerService {
     public boolean saveRetailer(Retailer r){
 
         Retailer existingRetailer = !isNullOrEmpty(r.getRetailerId()) ? retailerRepo.getByRetailerId(r.getRetailerId()) : retailerRepo.getByRetailerUsername(r.getRetailerUsername());
-        if (existingRetailer != null) {
-            throw new RuntimeException("Customer Already Exists");
+        Optional<UserCredential> existingUser = userCredentialRepository.findByName(r.getRetailerUsername());
+        if (existingRetailer != null || existingUser.isPresent()) {
+            throw new RuntimeException("UserName Already taken");
         }
 
         String[] Mandatory_Retailer_Feilds = { r.getRetailerName(), r.getRetailerOwner(), r.getRetailerUsername(), r.getRetailerPass() };
@@ -167,7 +172,7 @@ public class RetailerService {
                 (r.getRetailerEmail() == null || r.getRetailerEmail().trim().isEmpty()) &&
                 (r.getRetailerMobile() == null || r.getRetailerMobile().trim().isEmpty()) &&
                 (r.getRetailerOwner() == null || r.getRetailerOwner().trim().isEmpty()) &&
-                (r.getRetailImage() == null || r.getRetailImage().length==0) &&
+                (r.getRetailImage() == null || r.getRetailImage().trim().isEmpty()) &&
                 (r.getRetailerPass() == null || r.getRetailerPass().trim().isEmpty()) &&
                 (r.getRetailerDescription() == null || r.getRetailerDescription().trim().isEmpty())&&
                 (r.getIsAvailable() == null || r.getIsAvailable().trim().isEmpty())&&

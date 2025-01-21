@@ -1,6 +1,6 @@
 package com.saloonapp.app.services.customer;
 
-import java.io.IOException;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -9,14 +9,14 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import org.springframework.web.multipart.MultipartFile;
+
 
 import com.saloonapp.app.config.identity.CustomUserDetailsService;
 import com.saloonapp.app.config.identity.JwtService;
 import com.saloonapp.app.models.customer.Customer;
 import com.saloonapp.app.models.identity.UserCredential;
 import com.saloonapp.app.repos.customer.CustRepository;
-
+import com.saloonapp.app.repos.identity.UserCredentialRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -25,6 +25,9 @@ public class CustomerService implements CustomerServiceInterface {
     private static boolean isNullOrEmpty(String str) {
         return str == null || str.trim().isEmpty();
     }
+
+    @Autowired
+    private UserCredentialRepository userCredentialRepository;
 
     @Autowired
     private JwtService jwtService;
@@ -54,8 +57,9 @@ public class CustomerService implements CustomerServiceInterface {
     @Override
     public boolean createCustomer(Customer c) {
         Customer existingCustomer = customerRepository.findCustomerByUsername(c.getUsername());
-        if (existingCustomer != null && existingCustomer.getId() != null) {
-            throw new RuntimeException("Customer Already Exists");
+        Optional<UserCredential> existingUser = userCredentialRepository.findByName(c.getUsername());
+        if (existingCustomer != null || existingUser.isPresent()) {
+            throw new RuntimeException("UserName Already taken");
         }
         if (c.getGender() == null) {
             // Handle the case where gender is null, e.g., throw an exception or return
@@ -87,14 +91,14 @@ public class CustomerService implements CustomerServiceInterface {
     }
 
     @Override
-    public boolean uploadCustDP(MultipartFile file, String username){
+    public boolean uploadCustDP(String url, String username){
         Customer existingCustomer = customerRepository.findCustomerByUsername(username);
         if (existingCustomer != null && existingCustomer.getId() != null) {
             try {
-                existingCustomer.setProfile_img(file.getBytes());
+                existingCustomer.setProfile_img(url);
                 customerRepository.save(existingCustomer);
                 return true;
-            } catch (IOException e) {
+            } catch (Exception e) {
                 System.err.println("Error in img save: " + e.getMessage());
                 e.printStackTrace();
                 throw new RuntimeException(e);

@@ -16,7 +16,7 @@ public interface RAHServiceInterface {
     public TableRAH  getCurrentRequestByCustomer(String custId);
     public List<TableRAH>  getRAHQueueByRetailer(String retId);
     public TableRAH createRAH(TableRAH rah, String token);
-    public TableRAH updateApproveOrReject(String requestId,String retId, boolean isAccepted);//it updates the  status of the request with approved and serviceOngoing should be updated to pending.
+    public TableRAH updateApproveOrReject(String requestId,String retId, ServiceStatus serviceStatus);//it updates the  status of the request with approved and serviceOngoing should be updated to pending.
    
     public List<TableRAH> getRequestByRetIdAndApprovalStatus(String Retid);//approved list
     public List<TableRAH> getAcceptedRequestsByRetailer(String retToken);//approved list

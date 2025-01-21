@@ -48,7 +48,7 @@ public class RAHController {
 
     @PostMapping("/updateRequestApproval")
     public ResponseEntity<TableRAH> updateRequestApproval(@RequestBody TableRAH updates) {
-        return ResponseEntity.ok(rahService.updateApproveOrReject(updates.getRequestId(), updates.getRetId(), updates.isAccepted()));
+        return ResponseEntity.ok(rahService.updateApproveOrReject(updates.getRequestId(), updates.getRetId(), updates.getServiceOngoing()));
     }
 
     @GetMapping("/getCurrentCustomerRequest")
