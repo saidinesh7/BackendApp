@@ -1,8 +1,9 @@
 package com.saloonapp.app.models.rah;
 
 public enum ServiceStatus {
-        UNACCEPTED,
         PENDING,
+        ACCEPTED,
         ONGOING,
-        COMPLETED
+        COMPLETED,
+        REJECTED
     }

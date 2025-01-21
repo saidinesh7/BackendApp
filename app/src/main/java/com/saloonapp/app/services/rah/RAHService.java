@@ -82,7 +82,7 @@ public class RAHService implements RAHServiceInterface {
         if (prevRequest == null || prevRequest.size() == 0 || allCompleted) {
             rah.setRequestId(Id);
             rah.setCustId(custId);
-            rah.setServiceOngoing(ServiceStatus.UNACCEPTED);
+            rah.setServiceOngoing(ServiceStatus.PENDING);
             rah.setCustName(customer.getName());
             rah.setCustImage(customer.getProfile_img());
             List<CustomerServices> customerServices=rah.getCustExpectedServices();
@@ -106,11 +106,11 @@ public class RAHService implements RAHServiceInterface {
     }
 
     @Override
-    public TableRAH updateApproveOrReject(String requestId, String retId, boolean isAccepted) {
+    public TableRAH updateApproveOrReject(String requestId, String retId, ServiceStatus serviceStatus) {
         TableRAH request = rahRepo.findById(requestId)
                 .orElseThrow(() -> new RuntimeException("Request does not exist"));
-        request.setAccepted(isAccepted);
-        request.setServiceOngoing(ServiceStatus.PENDING);
+        request.setAccepted(serviceStatus == ServiceStatus.ACCEPTED  || serviceStatus == ServiceStatus.COMPLETED || serviceStatus == ServiceStatus.ONGOING);
+        request.setServiceOngoing(serviceStatus);
         return rahRepo.save(request);
     }
 
@@ -136,11 +136,14 @@ public class RAHService implements RAHServiceInterface {
             case "COMPLETED":
                 status=ServiceStatus.COMPLETED;
                 break;
+            case "ACCEPTED":
+                status=ServiceStatus.ACCEPTED;
+                break;
            case "ONGOING":
                 status=ServiceStatus.ONGOING;
                 break;
-           case "UNACCEPTED":
-                status=ServiceStatus.UNACCEPTED;
+           case "REJECTED":
+                status=ServiceStatus.REJECTED;
                 break;
             default:
                  status=ServiceStatus.PENDING;
@@ -205,7 +208,7 @@ public class RAHService implements RAHServiceInterface {
         List<TableRAH> prevList = rahRepo.findAllByCustId(custId);
         if (prevList.size() > 0) {
             TableRAH currentRequest = prevList.stream()
-                    .filter(tableRAH -> !tableRAH.getServiceOngoing().equals("COMPLETED"))
+                    .filter(tableRAH -> !tableRAH.getServiceOngoing().equals(ServiceStatus.COMPLETED))
                     .findFirst()
                     .orElse(null);
                     List<CustomerServices> customerServices=cRepo.getAllCustomerServicesByCustomerId(custId);

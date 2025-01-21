@@ -16,7 +16,7 @@ import com.saloonapp.app.config.identity.JwtService;
 import com.saloonapp.app.models.customer.Customer;
 import com.saloonapp.app.models.identity.UserCredential;
 import com.saloonapp.app.repos.customer.CustRepository;
-
+import com.saloonapp.app.repos.identity.UserCredentialRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -25,6 +25,9 @@ public class CustomerService implements CustomerServiceInterface {
     private static boolean isNullOrEmpty(String str) {
         return str == null || str.trim().isEmpty();
     }
+
+    @Autowired
+    private UserCredentialRepository userCredentialRepository;
 
     @Autowired
     private JwtService jwtService;
@@ -54,8 +57,9 @@ public class CustomerService implements CustomerServiceInterface {
     @Override
     public boolean createCustomer(Customer c) {
         Customer existingCustomer = customerRepository.findCustomerByUsername(c.getUsername());
-        if (existingCustomer != null && existingCustomer.getId() != null) {
-            throw new RuntimeException("Customer Already Exists");
+        Optional<UserCredential> existingUser = userCredentialRepository.findByName(c.getUsername());
+        if (existingCustomer != null || existingUser.isPresent()) {
+            throw new RuntimeException("UserName Already taken");
         }
         if (c.getGender() == null) {
             // Handle the case where gender is null, e.g., throw an exception or return
